@@ -1,0 +1,42 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(12, 13, 18, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar__brand {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+  color: var(--text);
+
+  span {
+    color: var(--accent);
+  }
+}
+
+.topbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+
+  a:not(.btn) {
+    color: var(--text-muted);
+  }
+
+  a:not(.btn):hover {
+    color: var(--text);
+  }
+}
+
+.topbar__user {
+  color: var(--text-muted);
+}

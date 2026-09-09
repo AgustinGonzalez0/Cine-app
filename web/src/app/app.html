@@ -1,0 +1,17 @@
+<header class="topbar">
+  <a class="topbar__brand" routerLink="/">CINE<span>APP</span></a>
+
+  <nav class="topbar__nav">
+    @if (auth.estaLogueado()) {
+      <span class="topbar__user">Hola, {{ auth.perfil()?.nombre ?? '...' }}</span>
+      <button class="btn" (click)="cerrarSesion()">Salir</button>
+    } @else {
+      <a routerLink="/login">Ingresar</a>
+      <a class="btn" routerLink="/registro">Crear cuenta</a>
+    }
+  </nav>
+</header>
+
+<main>
+  <router-outlet />
+</main>

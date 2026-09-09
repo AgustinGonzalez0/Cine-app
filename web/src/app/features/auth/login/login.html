@@ -1,0 +1,28 @@
+<section class="auth">
+  <form class="auth__card" [formGroup]="form" (ngSubmit)="enviar()">
+    <h1>Iniciar sesión</h1>
+
+    <label>
+      Email
+      <input type="email" formControlName="email" autocomplete="email" />
+    </label>
+
+    <label>
+      Contraseña
+      <input type="password" formControlName="password" autocomplete="current-password" />
+    </label>
+
+    @if (error()) {
+      <p class="auth__error">{{ error() }}</p>
+    }
+
+    <button type="submit" [disabled]="cargando()">
+      {{ cargando() ? 'Ingresando...' : 'Ingresar' }}
+    </button>
+
+    <p class="auth__aside">
+      ¿No tenés cuenta? <a routerLink="/registro">Registrate</a><br />
+      También podés <a routerLink="/">comprar como invitado</a>.
+    </p>
+  </form>
+</section>

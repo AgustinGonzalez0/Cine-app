@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #0c0d12;
+  --bg-elevated: #16181f;
+  --bg-card: #1c1f28;
+  --border: #2a2e3a;
+  --text: #f1f2f6;
+  --text-muted: #9296a6;
+  --accent: #e63950;
+  --accent-hover: #ff4d63;
+  --accent-contrast: #fff;
+  --gold: #e8b74b;
+  --success: #2fbf71;
+  --radius: 12px;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

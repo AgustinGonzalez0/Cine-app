@@ -1,7 +1,50 @@
 <section class="home">
+  @if (masVendidas().length > 0 && !busqueda() && generosSeleccionados().size === 0) {
+    <div class="home__destacadas">
+      <h2>Las más vistas</h2>
+      <div class="home__grid home__grid--destacadas">
+        @for (pelicula of masVendidas(); track pelicula.id) {
+          <app-pelicula-card [pelicula]="pelicula" [destacada]="true" />
+        }
+      </div>
+    </div>
+  }
+
+  <div class="home__buscador">
+    <input
+      type="search"
+      placeholder="Buscar película..."
+      [ngModel]="busqueda()"
+      (ngModelChange)="busqueda.set($event)"
+    />
+
+    <div class="home__generos">
+      @for (genero of generosDisponibles(); track genero) {
+        <button
+          type="button"
+          class="chip"
+          [class.chip--activo]="generosSeleccionados().has(genero)"
+          (click)="toggleGenero(genero)"
+        >
+          {{ genero }}
+        </button>
+      }
+    </div>
+  </div>
+
   <h1>Cartelera</h1>
-  <p class="home__placeholder">
-    Acá van a aparecer las películas más vendidas, el buscador y el listado completo de la
-    cartelera. Vamos sumando esta pantalla en el próximo paso.
-  </p>
+
+  @if (cargando()) {
+    <p class="home__estado">Cargando cartelera...</p>
+  } @else if (error()) {
+    <p class="home__estado home__estado--error">{{ error() }}</p>
+  } @else if (resultados().length === 0) {
+    <p class="home__estado">No encontramos películas con ese criterio.</p>
+  } @else {
+    <div class="home__grid">
+      @for (pelicula of resultados(); track pelicula.id) {
+        <app-pelicula-card [pelicula]="pelicula" />
+      }
+    </div>
+  }
 </section>

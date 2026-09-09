@@ -1,0 +1,43 @@
+<div class="mapa">
+  <div class="mapa__pantalla">Pantalla</div>
+
+  <div class="mapa__filas">
+    @for (fila of filas(); track fila.fila) {
+      <div class="mapa__fila">
+        <span class="mapa__letra">{{ fila.fila }}</span>
+
+        <div class="mapa__bloques">
+          @for (bloque of fila.bloques; track $index) {
+            @if (bloque.length > 0) {
+              <div class="mapa__bloque">
+                @for (butaca of bloque; track butaca.id) {
+                  <button
+                    type="button"
+                    class="asiento"
+                    [class.asiento--ocupada]="estadoDe(butaca) === 'ocupada'"
+                    [class.asiento--seleccionada]="estadoDe(butaca) === 'seleccionada'"
+                    [class.asiento--vip]="estadoDe(butaca) === 'vip'"
+                    [class.asiento--accesible]="estadoDe(butaca) === 'accesible'"
+                    [disabled]="estadoDe(butaca) === 'ocupada'"
+                    [attr.aria-label]="'Butaca ' + butaca.fila + butaca.columna"
+                    (click)="onClick(butaca)"
+                  ></button>
+                }
+              </div>
+            }
+          }
+        </div>
+
+        <span class="mapa__letra">{{ fila.fila }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="mapa__referencias">
+    <span><i class="asiento asiento--normal"></i> Normal</span>
+    <span><i class="asiento asiento--vip"></i> VIP</span>
+    <span><i class="asiento asiento--accesible"></i> Accesible</span>
+    <span><i class="asiento asiento--seleccionada"></i> Seleccionada</span>
+    <span><i class="asiento asiento--ocupada"></i> Ocupada</span>
+  </div>
+</div>

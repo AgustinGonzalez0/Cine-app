@@ -1,0 +1,86 @@
+.card {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  color: var(--text);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+
+.card--destacada {
+  border-color: var(--gold);
+}
+
+.card__poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.card__poster-placeholder {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--text-muted);
+}
+
+.card__badge {
+  position: absolute;
+  top: 0.6rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.card__badge--edad {
+  right: 0.6rem;
+  background: var(--accent);
+  color: #fff;
+}
+
+.card__badge--top {
+  left: 0.6rem;
+  background: var(--gold);
+  color: #1a1a1a;
+}
+
+.card__info {
+  padding: 0.9rem 1rem 1.1rem;
+
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+.card__meta,
+.card__generos {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.card__rating {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.85rem;
+
+  span {
+    color: var(--text-muted);
+  }
+}

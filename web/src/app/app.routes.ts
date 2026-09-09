@@ -13,4 +13,13 @@ export const routes: Routes = [
     path: 'registro',
     loadComponent: () => import('./features/auth/registro/registro').then((m) => m.Registro),
   },
+  {
+    path: 'peliculas/:id',
+    loadComponent: () =>
+      import('./features/peliculas/detalle/pelicula-detalle').then((m) => m.PeliculaDetalle),
+  },
+  {
+    path: 'compra/:funcionId',
+    loadComponent: () => import('./features/compra/compra').then((m) => m.Compra),
+  },
 ];

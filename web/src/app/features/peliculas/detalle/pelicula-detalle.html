@@ -1,0 +1,111 @@
+@if (cargando()) {
+  <p class="estado">Cargando...</p>
+} @else if (error()) {
+  <p class="estado estado--error">{{ error() }}</p>
+} @else if (pelicula(); as p) {
+  <section class="detalle">
+    <a class="detalle__volver" routerLink="/">← Volver a la cartelera</a>
+
+    <div class="detalle__hero">
+      <div class="detalle__poster">
+        @if (p.imagen_url) {
+          <img [src]="p.imagen_url" [alt]="p.nombre" />
+        } @else {
+          <span>{{ p.nombre.charAt(0) }}</span>
+        }
+      </div>
+
+      <div class="detalle__info">
+        <h1>{{ p.nombre }}</h1>
+        <p class="detalle__meta">
+          {{ p.formato }} · {{ p.idioma === 'castellano' ? 'Castellano' : 'Subtitulada' }} ·
+          {{ p.duracion_minutos }} min · {{ p.generos.join(', ') || 'Sin género' }}
+        </p>
+        <p class="detalle__rating">
+          ★ {{ p.promedio_estrellas || '—' }} ({{ p.cantidad_resenas }} reseñas)
+        </p>
+
+        @if (p.restriccion_edad) {
+          <p class="detalle__restriccion">
+            Apta para mayores de {{ p.restriccion_edad }} años. Los menores deben ir acompañados
+            de un adulto.
+          </p>
+        }
+
+        <p class="detalle__sinopsis">{{ p.sinopsis }}</p>
+      </div>
+    </div>
+
+    <div class="detalle__funciones">
+      <h2>Funciones</h2>
+      @if (funcionesPorDia().length === 0) {
+        <p class="estado">Todavía no hay funciones programadas.</p>
+      } @else {
+        @for (grupo of funcionesPorDia(); track grupo[0]) {
+          <div class="detalle__dia">
+            <h3>{{ grupo[0] }}</h3>
+            <div class="detalle__horarios">
+              @for (f of grupo[1]; track f.id) {
+                <a class="horario" [routerLink]="['/compra', f.id]">
+                  <span class="horario__hora">{{ formatoHora(f.inicio) }}</span>
+                  <span class="horario__sala">{{ f.salas?.nombre }}</span>
+                  <span class="horario__precio">desde ${{ f.precio_base }}</span>
+                  @if (f.es_preventa) {
+                    <span class="horario__preventa">Preventa</span>
+                  }
+                </a>
+              }
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <div class="detalle__resenas">
+      <h2>Reseñas</h2>
+
+      @if (auth.estaLogueado()) {
+        <div class="detalle__mi-resena">
+          <label>
+            Tu calificación
+            <select [ngModel]="miEstrellas()" (ngModelChange)="miEstrellas.set($event)">
+              @for (n of [1, 2, 3, 4, 5]; track n) {
+                <option [value]="n">{{ n }} ★</option>
+              }
+            </select>
+          </label>
+          <textarea
+            placeholder="Dejá un comentario corto (opcional)"
+            [ngModel]="miComentario()"
+            (ngModelChange)="miComentario.set($event)"
+          ></textarea>
+          <button class="btn" [disabled]="guardandoResena()" (click)="enviarResena()">
+            {{ guardandoResena() ? 'Guardando...' : 'Publicar reseña' }}
+          </button>
+        </div>
+      } @else {
+        <p class="estado">
+          <a routerLink="/login">Iniciá sesión</a> para dejar tu reseña.
+        </p>
+      }
+
+      @if (resenas().length === 0) {
+        <p class="estado">Todavía no hay reseñas para esta película.</p>
+      } @else {
+        <ul class="detalle__lista-resenas">
+          @for (r of resenas(); track r.id) {
+            <li>
+              <div class="resena__cabecera">
+                <strong>{{ r.nombre }} {{ r.apellido }}</strong>
+                <span>★ {{ r.estrellas }}</span>
+              </div>
+              @if (r.comentario) {
+                <p>{{ r.comentario }}</p>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </section>
+}

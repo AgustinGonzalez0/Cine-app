@@ -1,0 +1,28 @@
+<a class="card" [class.card--destacada]="destacada()" [routerLink]="['/peliculas', pelicula().id]">
+  <div class="card__poster">
+    @if (pelicula().imagen_url) {
+      <img [src]="pelicula().imagen_url" [alt]="pelicula().nombre" />
+    } @else {
+      <span class="card__poster-placeholder">{{ pelicula().nombre.charAt(0) }}</span>
+    }
+    @if (pelicula().restriccion_edad) {
+      <span class="card__badge card__badge--edad">+{{ pelicula().restriccion_edad }}</span>
+    }
+    @if (destacada()) {
+      <span class="card__badge card__badge--top">Más vista</span>
+    }
+  </div>
+
+  <div class="card__info">
+    <h3>{{ pelicula().nombre }}</h3>
+    <p class="card__meta">
+      {{ pelicula().formato }} · {{ pelicula().idioma === 'castellano' ? 'Castellano' : 'Subtitulada' }} ·
+      {{ pelicula().duracion_minutos }} min
+    </p>
+    <p class="card__generos">{{ pelicula().generos.join(', ') || 'Sin género' }}</p>
+    <p class="card__rating">
+      ★ {{ pelicula().promedio_estrellas || '—' }}
+      <span>({{ pelicula().cantidad_resenas }} reseñas)</span>
+    </p>
+  </div>
+</a>

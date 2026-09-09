@@ -1,0 +1,95 @@
+@if (cargando()) {
+  <p class="estado">Cargando función...</p>
+} @else if (error() && !funcion()) {
+  <p class="estado estado--error">{{ error() }}</p>
+} @else if (compraFinalizada(); as ok) {
+  <section class="confirmacion">
+    <h1>¡Compra confirmada!</h1>
+    <p>
+      Compraste {{ ok.cantidad }} {{ ok.cantidad === 1 ? 'entrada' : 'entradas' }} para
+      <strong>{{ pelicula()?.nombre }}</strong>.
+    </p>
+    <p class="confirmacion__nota">
+      El PDF con el código QR de cada entrada se va a poder descargar acá (lo sumamos en el
+      próximo paso). Código de compra: <code>{{ ok.id }}</code>
+    </p>
+    <button class="btn" (click)="volverAHome()">Volver a la cartelera</button>
+  </section>
+} @else if (funcion(); as f) {
+  <section class="compra">
+    <a class="compra__volver" [routerLink]="['/peliculas', f.pelicula_id]">← Volver a la película</a>
+
+    <header class="compra__header">
+      <h1>{{ pelicula()?.nombre }}</h1>
+      <p>
+        {{ f.salas?.nombre }} · {{ f.formato }} ·
+        {{ f.idioma === 'castellano' ? 'Castellano' : 'Subtitulada' }}
+      </p>
+    </header>
+
+    @if (bloqueadoPorEdad()) {
+      <p class="compra__bloqueo">
+        Esta película es apta para mayores de {{ pelicula()?.restriccion_edad }} años. Según tu
+        fecha de nacimiento no podés comprar esta entrada.
+      </p>
+    }
+
+    <app-mapa-butacas
+      [butacas]="butacas()"
+      [ocupadas]="ocupadas()"
+      [seleccionadas]="seleccionadas()"
+      (toggle)="toggleButaca($event)"
+    />
+
+    <div class="compra__resumen">
+      <div class="compra__seleccion">
+        @if (butacasSeleccionadas().length === 0) {
+          <p class="estado">Elegí una o más butacas en el mapa.</p>
+        } @else {
+          <p>
+            Butacas:
+            @for (b of butacasSeleccionadas(); track b.id) {
+              <span class="compra__chip" [class.compra__chip--vip]="b.tipo === 'vip'">
+                {{ b.fila }}{{ b.columna }}
+              </span>
+            }
+          </p>
+
+          @if (hayVipSeleccionada()) {
+            <label class="compra__vip-check">
+              <input
+                type="checkbox"
+                [ngModel]="confirmoVip()"
+                (ngModelChange)="confirmoVip.set($event)"
+              />
+              Entiendo que estoy comprando una o más butacas VIP a precio superior.
+            </label>
+          }
+
+          @if (!auth.estaLogueado()) {
+            <label class="compra__email">
+              Email para recibir la entrada
+              <input
+                type="email"
+                [ngModel]="emailInvitado()"
+                (ngModelChange)="emailInvitado.set($event)"
+                placeholder="tu@email.com"
+              />
+            </label>
+          }
+        }
+      </div>
+
+      <div class="compra__total">
+        <span>Total</span>
+        <strong>${{ total() }}</strong>
+        <button class="btn" [disabled]="!puedeComprar() || comprando()" (click)="confirmarCompra()">
+          {{ comprando() ? 'Procesando...' : 'Confirmar compra' }}
+        </button>
+        @if (error()) {
+          <p class="estado estado--error">{{ error() }}</p>
+        }
+      </div>
+    </div>
+  </section>
+}

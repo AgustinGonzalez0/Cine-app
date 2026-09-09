@@ -1,15 +1,77 @@
 .home {
-  padding: 2.5rem 1.5rem;
-  max-width: 1100px;
+  padding: 2rem 1.5rem 3rem;
+  max-width: 1200px;
   margin: 0 auto;
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: var(--gold);
+    margin: 2rem 0 1rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    color: var(--text);
+    margin-bottom: 1rem;
   }
 }
 
-.home__placeholder {
+.home__buscador {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+
+  input[type='search'] {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.75rem 1.25rem;
+    color: var(--text);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 420px;
+
+    &:focus {
+      outline: 2px solid var(--accent);
+    }
+  }
+}
+
+.home__generos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: transparent;
   color: var(--text-muted);
-  max-width: 60ch;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+}
+
+.chip--activo {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.home__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.25rem;
+}
+
+.home__grid--destacadas {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.home__estado {
+  color: var(--text-muted);
+}
+
+.home__estado--error {
+  color: var(--accent-hover);
 }

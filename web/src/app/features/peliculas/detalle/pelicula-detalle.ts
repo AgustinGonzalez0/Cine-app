@@ -8,6 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Pelicula } from '../../../core/models/pelicula.model';
 import { Funcion } from '../../../core/models/funcion.model';
 import { Resena } from '../../../core/models/resena.model';
+import { mensajeError } from '../../../core/utils/error';
 
 @Component({
   selector: 'app-pelicula-detalle',
@@ -71,7 +72,7 @@ export class PeliculaDetalle {
         }
       }
     } catch (e) {
-      this.error.set(e instanceof Error ? e.message : 'No se pudo cargar la película');
+      this.error.set(mensajeError(e, 'No se pudo cargar la película'));
     } finally {
       this.cargando.set(false);
     }
@@ -92,7 +93,7 @@ export class PeliculaDetalle {
       );
       this.resenas.set(await this.resenasService.listarPorPelicula(pelicula.id));
     } catch (e) {
-      this.error.set(e instanceof Error ? e.message : 'No se pudo guardar la reseña');
+      this.error.set(mensajeError(e, 'No se pudo guardar la reseña'));
     } finally {
       this.guardandoResena.set(false);
     }

@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { mensajeError } from '../../../core/utils/error';
 
 @Component({
   selector: 'app-registro',
@@ -55,7 +56,7 @@ export class Registro {
         this.confirmarEmail.set(true);
       }
     } catch (e) {
-      this.error.set(e instanceof Error ? e.message : 'No se pudo completar el registro');
+      this.error.set(mensajeError(e, 'No se pudo completar el registro'));
     } finally {
       this.cargando.set(false);
     }

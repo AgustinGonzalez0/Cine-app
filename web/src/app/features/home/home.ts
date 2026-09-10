@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { PeliculasService } from '../../core/services/peliculas.service';
 import { Pelicula } from '../../core/models/pelicula.model';
 import { PeliculaCard } from '../../shared/components/pelicula-card/pelicula-card';
+import { mensajeError } from '../../core/utils/error';
 
 @Component({
   selector: 'app-home',
@@ -49,7 +50,7 @@ export class Home {
       this.peliculas.set(peliculas);
       this.generosDisponibles.set(generos);
     } catch (e) {
-      this.error.set(e instanceof Error ? e.message : 'No se pudo cargar la cartelera');
+      this.error.set(mensajeError(e, 'No se pudo cargar la cartelera'));
     } finally {
       this.cargando.set(false);
     }

@@ -11,6 +11,7 @@ import { Funcion } from '../../core/models/funcion.model';
 import { Pelicula } from '../../core/models/pelicula.model';
 import { Butaca } from '../../core/models/butaca.model';
 import { MapaButacas } from '../../shared/components/mapa-butacas/mapa-butacas';
+import { mensajeError } from '../../core/utils/error';
 
 @Component({
   selector: 'app-compra',
@@ -114,7 +115,7 @@ export class Compra implements OnDestroy {
         this.ocupadas.set(new Set(actualizadas));
       });
     } catch (e) {
-      this.error.set(e instanceof Error ? e.message : 'No se pudo cargar la función');
+      this.error.set(mensajeError(e, 'No se pudo cargar la función'));
     } finally {
       this.cargando.set(false);
     }
@@ -167,13 +168,12 @@ export class Compra implements OnDestroy {
 
       this.compraFinalizada.set({ id: compraId, cantidad: butacas.length });
     } catch (e) {
-      const mensaje =
-        e instanceof Error
-          ? e.message
-          : typeof e === 'object' && e !== null && 'message' in e
-            ? String((e as { message: unknown }).message)
-            : 'No se pudo completar la compra. Puede que alguna butaca ya se haya vendido, probá de nuevo.';
-      this.error.set(mensaje);
+      this.error.set(
+        mensajeError(
+          e,
+          'No se pudo completar la compra. Puede que alguna butaca ya se haya vendido, probá de nuevo.',
+        ),
+      );
       const actualizadas = await this.butacasService.listarOcupadas(this.funcionId);
       this.ocupadas.set(new Set(actualizadas));
       this.seleccionadas.set(new Set());
